@@ -11,6 +11,7 @@ from unitree_sdk2py.go2.obstacles_avoid.obstacles_avoid_client import (
     ObstaclesAvoidClient,
 )
 from unitree_sdk2py.go2.video.video_client import VideoClient
+from unitree_sdk2py.go2.vui.vui_client import VuiClient
 
 from . import config
 
@@ -24,8 +25,10 @@ class Robot:
         self.sport: SportClient | None = None
         self.obstacles: ObstaclesAvoidClient | None = None
         self.video: VideoClient | None = None
+        self.vui: VuiClient | None = None
         self.obstacle_avoidance_enabled: bool = config.OBSTACLE_AVOIDANCE
         self._speed_level: int = 1  # 1 = normal
+        self._light_on: bool = False
 
     # ── lifecycle ──────────────────────────────────────────────────
 
@@ -54,6 +57,12 @@ class Robot:
         self.video.SetTimeout(3.0)
         self.video.Init()
         log.info("VideoClient ready")
+
+        # VuiClient (light/volume)
+        self.vui = VuiClient()
+        self.vui.SetTimeout(3.0)
+        self.vui.Init()
+        log.info("VuiClient ready")
 
     def shutdown(self) -> None:
         """Clean up: zero velocity, disable remote API control."""
@@ -141,3 +150,16 @@ class Robot:
         self._speed_level = max(1, min(level, 3))
         if self.sport:
             self.sport.SpeedLevel(self._speed_level)
+
+    # ── light ─────────────────────────────────────────────────────
+
+    @property
+    def light_on(self) -> bool:
+        return self._light_on
+
+    def set_light(self, on: bool) -> int:
+        """Turn the head light on (max brightness) or off. Returns SDK code."""
+        code = self.vui.SetBrightness(10 if on else 0)
+        if code == 0:
+            self._light_on = on
+        return code

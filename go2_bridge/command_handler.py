@@ -67,6 +67,8 @@ class CommandHandler:
             return self._handle_obstacle_avoidance(params)
         if cmd == "speed_level":
             return self._handle_speed_level(params)
+        if cmd == "light":
+            return self._handle_light(params)
         if cmd == "list_actions":
             return self._handle_list_actions()
         if cmd == "status":
@@ -112,6 +114,15 @@ class CommandHandler:
         self._robot.speed_level = level
         return make_response(True, f"speed level set to {self._robot.speed_level}")
 
+    def _handle_light(self, params: dict) -> bytes:
+        on = bool(params.get("on", True))
+        try:
+            code = self._robot.set_light(on)
+            state = "on" if self._robot.light_on else "off"
+            return make_response(code == 0, f"light {state}", {"code": code})
+        except Exception as exc:
+            return make_response(False, str(exc))
+
     def _handle_list_actions(self) -> bytes:
         return make_response(True, "actions", {"actions": list(ACTION_REGISTRY.keys())})
 
@@ -119,4 +130,5 @@ class CommandHandler:
         return make_response(True, "ok", {
             "obstacle_avoidance": self._robot.obstacle_avoidance_enabled,
             "speed_level": self._robot.speed_level,
+            "light_on": self._robot.light_on,
         })

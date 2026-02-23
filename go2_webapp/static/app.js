@@ -12,6 +12,7 @@ const actionsGrid = document.getElementById("actions-grid");
 const logEl       = document.getElementById("log");
 const oaToggle    = document.getElementById("oa-toggle");
 const speedSelect = document.getElementById("speed-select");
+const lightToggle = document.getElementById("light-toggle");
 const connStatus  = document.getElementById("conn-status");
 
 // ── Logging ──────────────────────────────────────────────────────
@@ -91,6 +92,12 @@ btnMoveStop.addEventListener("click", () => sendCmd("stop"));
 
 oaToggle.addEventListener("change", () => {
   sendCmd("obstacle_avoidance", { enabled: oaToggle.checked });
+});
+
+// ── Light toggle ─────────────────────────────────────────────────
+
+lightToggle.addEventListener("change", () => {
+  sendCmd("light", { on: lightToggle.checked });
 });
 
 // ── Speed level ──────────────────────────────────────────────────
@@ -230,6 +237,7 @@ function updateKeyboardMove() {
   const resp = await sendCmd("status");
   if (resp && resp.data) {
     oaToggle.checked = resp.data.obstacle_avoidance;
+    lightToggle.checked = resp.data.light_on || false;
     speedSelect.value = String(resp.data.speed_level || 1);
   }
 })();
