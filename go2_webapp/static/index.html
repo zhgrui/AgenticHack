@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Go2 Controller</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Go2 Controller</h1>
+  <div class="status-bar">
+    <label>
+      <input type="checkbox" id="oa-toggle" checked>
+      Obstacle Avoidance
+    </label>
+    <div class="speed-select">
+      <span>Speed:</span>
+      <select id="speed-select">
+        <option value="1">1 (Slow)</option>
+        <option value="2">2 (Normal)</option>
+        <option value="3">3 (Fast)</option>
+      </select>
+    </div>
+    <span id="conn-status">Disconnected</span>
+  </div>
+</header>
+
+<main>
+  <!-- Camera feed -->
+  <div class="camera-panel">
+    <img id="camera-img" alt="Camera Feed" style="display:none;">
+    <div class="no-feed" id="no-feed">No camera feed</div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button class="stop-btn" id="btn-stop">STOP</button>
+
+    <div class="section-title">Movement (WASD)</div>
+    <div class="move-pad">
+      <button class="fwd"  data-vx="1" data-vy="0" data-vyaw="0">W ↑</button>
+      <button class="left" data-vx="0" data-vy="1" data-vyaw="0">A ←</button>
+      <button class="stop" id="btn-move-stop">■</button>
+      <button class="right" data-vx="0" data-vy="-1" data-vyaw="0">D →</button>
+      <button class="back" data-vx="-1" data-vy="0" data-vyaw="0">S ↓</button>
+    </div>
+
+    <div class="section-title">Rotation (Q/E)</div>
+    <div class="rotate-row">
+      <button data-vx="0" data-vy="0" data-vyaw="1">Q ↰</button>
+      <button data-vx="0" data-vy="0" data-vyaw="-1">E ↱</button>
+    </div>
+
+    <div class="section-title">Actions</div>
+    <div class="actions-grid" id="actions-grid">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="section-title">Log</div>
+    <div class="log" id="log"></div>
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Python venv
+go2_py311/
+
+# External SDK & dependencies (cloned separately, not part of this repo)
+unitree_sdk2_python/
+cyclonedds/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Misc
+*.jpg
+*.png

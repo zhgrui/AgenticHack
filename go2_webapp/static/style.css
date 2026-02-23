@@ -1,0 +1,196 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #1a1a2e;
+  color: #eee;
+  min-height: 100vh;
+}
+
+header {
+  background: #16213e;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #0f3460;
+}
+
+header h1 { font-size: 1.3rem; }
+
+.status-bar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.status-bar label { cursor: pointer; }
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Camera */
+.camera-panel {
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  min-height: 360px;
+}
+
+.camera-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.camera-panel .no-feed {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Controls sidebar */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Stop button */
+.stop-btn {
+  width: 100%;
+  padding: 16px;
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 2px;
+}
+.stop-btn:active { background: #b71c1c; }
+
+/* Movement pad */
+.move-pad {
+  display: grid;
+  grid-template-areas:
+    ".  fwd  ."
+    "left stop right"
+    ".  back .";
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+}
+.move-pad button {
+  padding: 14px 0;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #16213e;
+  color: #eee;
+  font-size: 1rem;
+  cursor: pointer;
+  touch-action: none;
+}
+.move-pad button:active, .move-pad button.active { background: #0f3460; }
+.move-pad .fwd   { grid-area: fwd; }
+.move-pad .back  { grid-area: back; }
+.move-pad .left  { grid-area: left; }
+.move-pad .right { grid-area: right; }
+.move-pad .rot-l { grid-area: left; }
+.move-pad .rot-r { grid-area: right; }
+.move-pad .stop  { grid-area: stop; background: #e53935; }
+
+/* Rotation row */
+.rotate-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.rotate-row button {
+  padding: 10px 0;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #16213e;
+  color: #eee;
+  font-size: 0.9rem;
+  cursor: pointer;
+  touch-action: none;
+}
+.rotate-row button:active, .rotate-row button.active { background: #0f3460; }
+
+/* Section heading */
+.section-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* Actions grid */
+.actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.actions-grid button {
+  padding: 8px 4px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #16213e;
+  color: #eee;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.actions-grid button:active { background: #0f3460; }
+
+/* Speed selector */
+.speed-select {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.speed-select select {
+  flex: 1;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background: #16213e;
+  color: #eee;
+}
+
+/* Log area */
+.log {
+  font-family: monospace;
+  font-size: 0.75rem;
+  background: #0d0d1a;
+  border-radius: 6px;
+  padding: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
