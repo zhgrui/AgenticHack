@@ -39,9 +39,10 @@ cmake --build . --target install
 The SDK is not on PyPI — clone it and install in editable mode:
 
 ```bash
-export CYCLONEDDS_HOME="/path/to/your/cyclonedss/install"
 git clone https://github.com/unitreerobotics/unitree_sdk2_python.git
-pip install -e unitree_sdk2_python/
+cd ~/unitree_sdk2_python
+export CYCLONEDDS_HOME="/global/path/to/your/cyclonedss/install"
+pip3 install -e .
 ```
 
 This pulls in `cyclonedds`, `numpy`, `opencv-python`, and other SDK dependencies automatically.
