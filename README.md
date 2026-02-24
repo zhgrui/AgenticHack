@@ -1,4 +1,4 @@
-# Go2 ZMQ Bridge, CLI Client & Web App
+# Go2 ZMQ Bridge, CLI Client, Web App & MCP Server
 
 A reusable interface layer for the Unitree Go2 quadruped robot. A ZeroMQ bridge process sits between the Unitree SDK and any number of clients, providing a clean JSON protocol for actions, movement, and camera streaming.
 
@@ -14,7 +14,10 @@ A reusable interface layer for the Unitree Go2 quadruped robot. A ZeroMQ bridge 
 │  (FastAPI)   │ ◄── ZMQ SUB ── │  │ move_loop    │ │
 └─────────────┘   (port 5556)    │  │ camera_pub   │ │
                                  │  └─────────────┘ │
-                                 └──────────────────┘
+┌─────────────┐   ZMQ REQ/REP   │                  │
+│  MCP Server  │ ──────────────► │                  │
+│  (stdio)     │ ◄── ZMQ SUB ── │                  │
+└─────────────┘                  └──────────────────┘
 ```
 
 **go2_bridge** runs three threads:
@@ -104,6 +107,45 @@ Open **http://localhost:8080** in a browser. The UI provides:
 - **Speed level selector** (1-3)
 - **STOP button** (also spacebar)
 
+### 4. MCP Server (for Claude Code / Claude Desktop)
+
+The MCP server exposes robot control as tools that an LLM can call. It connects to the bridge as a ZMQ client, just like the CLI and web app.
+
+```bash
+# Run directly (stdio transport)
+python -m go2_mcp
+
+# Test with MCP inspector
+mcp dev go2_mcp/server.py
+```
+
+**Available MCP tools:**
+
+| Tool | Description |
+|------|-------------|
+| `get_status` | Get robot status (obstacle avoidance, speed, light) |
+| `list_actions` | List all available actions |
+| `execute_action` | Run a named action (stand_up, dance1, etc.) |
+| `move` | Move with velocity (vx, vy, vyaw) |
+| `stop` | Emergency stop |
+| `set_obstacle_avoidance` | Toggle obstacle avoidance on/off |
+| `set_speed_level` | Set speed 1-3 |
+| `set_light` | Turn head light on/off |
+| `get_camera_frame` | Capture and return a JPEG frame |
+
+**Claude Code configuration** (`.claude/settings.json` or project settings):
+```json
+{
+  "mcpServers": {
+    "go2": {
+      "command": "/path/to/go2_py311/bin/python",
+      "args": ["-m", "go2_mcp"],
+      "cwd": "/path/to/go2"
+    }
+  }
+}
+```
+
 ## ZMQ Protocol
 
 ### Commands (REQ/REP — port 5555)
@@ -127,6 +169,7 @@ Response format:
 | `stop` | — | Zero velocity immediately |
 | `obstacle_avoidance` | `{"enabled": true}` | Toggle obstacle avoidance |
 | `speed_level` | `{"level": 2}` | Set speed (1-3) |
+| `light` | `{"on": true}` | Turn head light on/off |
 | `list_actions` | — | Get list of available actions |
 | `status` | — | Get current bridge status |
 

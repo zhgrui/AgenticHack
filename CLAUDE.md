@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project provides a reusable interface layer for the Unitree Go2 quadruped robot. A ZeroMQ bridge process (`go2_bridge`) sits between the Unitree SDK and any number of clients, exposing a clean JSON protocol for actions, movement, and camera streaming. Two client applications are included: a CLI tool and a web app.
+This project provides a reusable interface layer for the Unitree Go2 quadruped robot. A ZeroMQ bridge process (`go2_bridge`) sits between the Unitree SDK and any number of clients, exposing a clean JSON protocol for actions, movement, and camera streaming. Three client applications are included: a CLI tool, a web app, and an MCP server.
 
 ## Directory Layout
 
@@ -21,6 +21,9 @@ go2/
 ├── go2_webapp/          # FastAPI web app (python -m go2_webapp)
 │   ├── __main__.py      # HTTP/WS server, proxies to bridge via ZMQ
 │   └── static/          # Single-page UI (HTML + vanilla JS + CSS)
+├── go2_mcp/             # MCP server (python -m go2_mcp)
+│   ├── server.py        # FastMCP tools → ZMQ bridge client
+│   └── __main__.py      # Entry point (stdio transport)
 ├── unitree_sdk2_python/  # Unitree SDK2 Python (clone, not committed)
 ├── go2_py311/           # Python 3.11 venv (not committed)
 ├── requirements_bridge.txt
@@ -44,6 +47,9 @@ python go2_client/cli_client.py move 0.3 0.0 0.0
 # In another terminal — Web app
 python -m go2_webapp
 # Open http://localhost:8080
+
+# MCP server (for Claude Code / Claude Desktop)
+python -m go2_mcp
 ```
 
 ## Configuration
@@ -101,3 +107,5 @@ Commands go over REQ/REP (port 5555). Streams go over PUB/SUB (port 5556).
 - Graceful shutdown via SIGINT/SIGTERM: zeros velocity, disables remote API control, terminates ZMQ context
 - Web app uses async ZMQ (`zmq.asyncio`) for non-blocking bridge communication
 - Camera frames are relayed: SDK → ZMQ PUB → WebSocket → browser `<img>` tag via blob URLs
+- MCP server is a thin ZMQ bridge client (stdio transport); all clients (CLI, web, MCP) can run simultaneously
+- MCP `get_camera_frame` subscribes to PUB topic and returns a single frame as base64 JPEG

@@ -55,7 +55,15 @@ pip install -r requirements_bridge.txt
 
 This adds: `pyzmq`, `fastapi`, `uvicorn`.
 
-## 6. Verify Installation
+## 6. (Optional) Install MCP Server Dependencies
+
+Only needed if you want to use the MCP server with Claude Code / Claude Desktop:
+
+```bash
+pip install "mcp[cli]"
+```
+
+## 7. Verify Installation
 
 ```bash
 source go2_py311/bin/activate
@@ -67,7 +75,7 @@ python -c "from unitree_sdk2py.go2.sport.sport_client import SportClient; print(
 python -c "import zmq, fastapi, uvicorn; print('Bridge deps OK')"
 ```
 
-## 7. Network Setup
+## 8. Network Setup
 
 The Go2 robot communicates via DDS over a local network. You need to know which network interface connects to the robot:
 
