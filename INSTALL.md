@@ -27,12 +27,11 @@ source go2_py311/bin/activate
 Only needed if you want to build CycloneDDS from source for custom DDS configuration. 
 
 ```bash
-git clone https://github.com/eclipse-cyclonedds/cyclonedds.git
-cd cyclonedds
-mkdir build && cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=install
+cd ~
+git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x 
+cd cyclonedds && mkdir build install && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=../install
 cmake --build . --target install
-cd ../..
 ```
 
 ## 4. Install the Unitree SDK
