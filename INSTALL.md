@@ -22,28 +22,9 @@ python3.11 -m venv go2_py311
 source go2_py311/bin/activate
 ```
 
-## 3. Install the Unitree SDK
+## 3. (Optional) Clone CycloneDDS C Library
 
-The SDK is not on PyPI — clone it and install in editable mode:
-
-```bash
-git clone https://github.com/unitreerobotics/unitree_sdk2_python.git
-pip install -e unitree_sdk2_python/
-```
-
-This pulls in `cyclonedds`, `numpy`, `opencv-python`, and other SDK dependencies automatically.
-
-## 4. Install Bridge & Web App Dependencies
-
-```bash
-pip install -r requirements_bridge.txt
-```
-
-This adds: `pyzmq`, `fastapi`, `uvicorn`.
-
-## 5. (Optional) Clone CycloneDDS C Library
-
-Only needed if you want to build CycloneDDS from source for custom DDS configuration. The Python `cyclonedds` package installed via pip in step 3 is sufficient for normal use.
+Only needed if you want to build CycloneDDS from source for custom DDS configuration. 
 
 ```bash
 git clone https://github.com/eclipse-cyclonedds/cyclonedds.git
@@ -53,6 +34,26 @@ cmake .. -DCMAKE_INSTALL_PREFIX=install
 cmake --build . --target install
 cd ../..
 ```
+
+## 4. Install the Unitree SDK
+
+The SDK is not on PyPI — clone it and install in editable mode:
+
+```bash
+export CYCLONEDDS_HOME="/path/to/your/cyclonedss/install"
+git clone https://github.com/unitreerobotics/unitree_sdk2_python.git
+pip install -e unitree_sdk2_python/
+```
+
+This pulls in `cyclonedds`, `numpy`, `opencv-python`, and other SDK dependencies automatically.
+
+## 5. Install Bridge & Web App Dependencies
+
+```bash
+pip install -r requirements_bridge.txt
+```
+
+This adds: `pyzmq`, `fastapi`, `uvicorn`.
 
 ## 6. Verify Installation
 
