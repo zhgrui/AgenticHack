@@ -181,3 +181,7 @@ def get_camera_frame() -> CallToolResult:
         )
     finally:
         sub.close()
+
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")

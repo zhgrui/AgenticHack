@@ -1,3 +1,4 @@
 pyzmq>=25.0
 fastapi>=0.100
 uvicorn[standard]>=0.20
+mcp>=1.0
