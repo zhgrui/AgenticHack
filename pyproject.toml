@@ -1,0 +1,14 @@
+[project]
+name = "agentichack"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cyclonedds>=0.10.5",
+]
+
+[tool.uv.workspace]
+members = [
+    "unitree_sdk2_python",
+]

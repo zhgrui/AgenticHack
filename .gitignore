@@ -2,7 +2,7 @@
 go2_py311/
 
 # External SDK & dependencies (cloned separately, not part of this repo)
-unitree_sdk2_python/
+#unitree_sdk2_python/
 cyclonedds/
 
 # Python bytecode
