@@ -28,7 +28,7 @@ Only needed if you want to build CycloneDDS from source for custom DDS configura
 
 ```bash
 cd ~
-git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x 
+git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x
 cd cyclonedds && mkdir build install && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=../install
 cmake --build . --target install
