@@ -41,6 +41,7 @@ DEFAULT_CMD_SUBJECT = os.getenv("NATS_ROBOT_CMD_SUBJECT", "robot.commands")
 
 # ── Frame processing ──────────────────────────────────────────────
 
+
 def decode_frame(raw: bytes) -> np.ndarray | None:
     """Decode JPEG bytes from NATS into a BGR numpy array (OpenCV format)."""
     try:
@@ -85,6 +86,7 @@ def process_frame(frame: np.ndarray) -> dict:
 
 
 # ── Main async loop ──────────────────────────────────────────────
+
 
 async def run(args):
     # Connect to NATS
@@ -190,18 +192,21 @@ async def run(args):
 
 # ── CLI ───────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Go2 navigation — NATS camera → decision → NATS commands",
     )
-    parser.add_argument("--url", default=DEFAULT_NATS_URL,
-                        help="NATS server URL (default: %(default)s)")
-    parser.add_argument("--camera-subject", default=DEFAULT_CAMERA_SUBJECT,
-                        help="NATS subject for camera frames (default: %(default)s)")
-    parser.add_argument("--nav-subject", default=DEFAULT_NAV_SUBJECT,
-                        help="NATS subject for nav commands (default: %(default)s)")
-    parser.add_argument("--cmd-subject", default=DEFAULT_CMD_SUBJECT,
-                        help="NATS subject to publish robot commands (default: %(default)s)")
+    parser.add_argument("--url", default=DEFAULT_NATS_URL, help="NATS server URL (default: %(default)s)")
+    parser.add_argument(
+        "--camera-subject", default=DEFAULT_CAMERA_SUBJECT, help="NATS subject for camera frames (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--nav-subject", default=DEFAULT_NAV_SUBJECT, help="NATS subject for nav commands (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--cmd-subject", default=DEFAULT_CMD_SUBJECT, help="NATS subject to publish robot commands (default: %(default)s)"
+    )
     args = parser.parse_args()
 
     asyncio.run(run(args))

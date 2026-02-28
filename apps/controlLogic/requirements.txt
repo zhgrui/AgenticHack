@@ -1,0 +1,5 @@
+nats-py
+opencv-python
+numpy
+Pillow
+google-genai
