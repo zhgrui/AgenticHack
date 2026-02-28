@@ -40,9 +40,15 @@ The SDK is not on PyPI — clone it and install in editable mode:
 
 ```bash
 git clone https://github.com/unitreerobotics/unitree_sdk2_python.git
-cd ~/unitree_sdk2_python
-export CYCLONEDDS_HOME="/global/path/to/your/cyclonedss/install"
-pip3 install -e .
+# cd ./unitree_sdk2_python
+# export CYCLONEDDS_HOME="/global/path/to/your/cyclonedss/install"
+# export CMAKE_PREFIX_PATH=/usr
+export CycloneDDS_DIR=/usr/lib/cmake/CycloneDDS
+# optional but sometimes checked by build scripts:
+export CYCLONEDDS_HOME=/usr
+cd ..
+uv add cyclonedds
+uv pip install -e .
 ```
 
 This pulls in `cyclonedds`, `numpy`, `opencv-python`, and other SDK dependencies automatically.
@@ -66,8 +72,6 @@ pip install "mcp[cli]"
 ## 7. Verify Installation
 
 ```bash
-source go2_py311/bin/activate
-
 # Check SDK is importable
 python -c "from unitree_sdk2py.go2.sport.sport_client import SportClient; print('SDK OK')"
 
@@ -92,7 +96,7 @@ ifconfig            # macOS
 Set the interface when starting the bridge:
 
 ```bash
-GO2_NETWORK_INTERFACE=eno1 python -m go2_bridge
+GO2_NETWORK_INTERFACE=wlan0 python -m go2_bridge
 ```
 
 ## Running
@@ -101,7 +105,7 @@ GO2_NETWORK_INTERFACE=eno1 python -m go2_bridge
 
 ```bash
 source go2_py311/bin/activate
-GO2_NETWORK_INTERFACE=eno1 python -m go2_bridge
+GO2_NETWORK_INTERFACE=wlan0 python -m go2_bridge
 ```
 
 ### Start the Web App (separate terminal)
